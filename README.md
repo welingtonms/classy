@@ -1,4 +1,4 @@
-# variantify
+# classy
 This library helps you to handle assigning style to multiple combination os variations.
 
 ## What problem do we want to solve here?
