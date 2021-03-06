@@ -1,0 +1,14 @@
+{
+  "include": ["src/**/*"],
+  "exclude": ["src/**/*.test.js"],
+  "compilerOptions": {
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": false,
+    "outDir": "dist",
+    "declarationDir": ".",
+    "sourceMap": true,
+    "rootDir": "src",
+    "lib": ["ES2016"]
+  },
+}
