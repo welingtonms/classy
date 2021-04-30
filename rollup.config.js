@@ -14,7 +14,12 @@ module.exports = {
   plugins: [
     del({ targets: [`dist/`] }),
     ts({ typescript, tsconfig: './tsconfig.json' }),
-    resolve(), // so Rollup can find `ms`
+    resolve({
+      // Source: https://rollupjs.org/guide/en/#peer-dependencies
+      customResolveOptions: {
+        moduleDirectory: 'node_modules',
+      },
+    }), // so Rollup can find `ms`
     commonjs(), // so Rollup can convert `ms` to an ES module
     babel({
       exclude: 'node_modules/**', // only transpile our source code
@@ -23,7 +28,8 @@ module.exports = {
     analyze({
       hideDeps: true,
       summaryOnly: true,
-      filter: module => /^\/src/.test(module.id),
+      filter: (module) => /^\/src/.test(module.id),
     }),
   ],
+  external: ['react', 'react-dom'],
 };
