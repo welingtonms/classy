@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/cheesebit/classy/compare/v1.0.0...v1.0.1) (2021-04-30)
+
+
+### Bug Fixes
+
+* treat react/react-dom as external ([50f173c](https://github.com/cheesebit/classy/commit/50f173c2443451ef9fa38a710750ffd7868bf292))
+
 # 1.0.0 (2021-03-06)
 
 
