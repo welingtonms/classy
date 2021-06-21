@@ -19,7 +19,7 @@ export type ClassCondition<T> = ObjectCondition<T> | string | undefined
 
 /**
  * Return a function that checks conditions against a props object.
- * @param conditions 
+ * @param conditions
  * @returns {(props: T) => boolean}
  * @example
  * ```jsx
@@ -52,6 +52,8 @@ export function prop<T extends Record<string, any>>(
 
         if (Array.isArray(condition[key])) {
           temp = temp && toArray(condition[key]).includes(value)
+        } else if (isFunction(condition[key])) {
+          temp = temp && Boolean(condition[key](value))
         } else {
           temp = temp && condition[key] === value
         }
@@ -84,14 +86,28 @@ function handleConditionObject<T>(conditions: ObjectCondition<T>, props: T) {
   return res.join(' ')
 }
 
+/**
+ * Concatenate style properties or class names conditionally.
+ * Conditions can be functions that consume components props,
+ * objects, strings, or numbers (that will be coerced to strings).
+ * @example
+ * ```jsx
+ * classy(1, 'some-class', {
+ *  'class-a': true,
+ *  'class-b': (props) => props.showClassB,
+ * }, (props) => props.className)
+ * ```
+ * @param conditions
+ * @returns {(props: Object) => string} Returns function that consumes component props.
+ */
 export function classy<T>(...conditions: ClassCondition<T>[]): (props: T) => string {
   return function (props: T): string {
-    
+
     let classes: string[] = []
 
     for (let i = 0; i < conditions.length; i++) {
       const condition = conditions[i]
-      
+
       if (isObject(condition)) {
         classes = classes.concat(handleConditionObject(condition as ObjectCondition<T>, props))
       } else if (condition) {
@@ -103,6 +119,22 @@ export function classy<T>(...conditions: ClassCondition<T>[]): (props: T) => str
   }
 }
 
+/**
+ * Custom React hook that exposes `classy` and `prop` functions for a specific component.
+ * Conditions can be functions that consume components props,
+ * objects, strings, or numbers (that will be coerced to strings).
+ * @see {@link prop prop}
+ * @see {@link class class}
+ * @example
+ * ```jsx
+ * classy(1, 'some-class', {
+ *  'class-a': true,
+ *  'class-b': (props) => props.showClassB,
+ * }, (props) => props.className)
+ * ```
+ * @param conditions
+ * @returns {(props: Object) => string} Returns function that consumes component props.
+ */
 export function useClassy<T>(
   props: T
 ): {
