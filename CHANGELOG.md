@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/cheesebit/classy/compare/v1.0.1...v1.0.2) (2021-06-21)
+
+
+### Bug Fixes
+
+* add condition of type function ([d98cbf0](https://github.com/cheesebit/classy/commit/d98cbf0a193f77e2efe509ca07c6c5350cc8930f))
+
 ## [1.0.1](https://github.com/cheesebit/classy/compare/v1.0.0...v1.0.1) (2021-04-30)
 
 
