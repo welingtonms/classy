@@ -10,13 +10,13 @@ import typescript from 'typescript';
 
 module.exports = {
   input: 'src/index.ts',
-  output: [{ name: 'classy', file: pkg.module, format: 'es' }],
+  output: [{ name: 'classy', file: pkg.module, format: 'cjs' }],
   plugins: [
     del({ targets: [`dist/`] }),
     ts({ typescript, tsconfig: './tsconfig.json' }),
     resolve({
       // Source: https://rollupjs.org/guide/en/#peer-dependencies
-      moduleDirectory: ['node_modules',],
+      moduleDirectory: ['node_modules'],
     }), // so Rollup can find `ms`
     commonjs(), // so Rollup can convert `ms` to an ES module
     babel({
