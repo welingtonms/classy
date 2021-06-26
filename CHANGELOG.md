@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/cheesebit/classy/compare/v1.0.2...v1.0.3) (2021-06-26)
+
+
+### Bug Fixes
+
+* change outuput format ([144be0d](https://github.com/cheesebit/classy/commit/144be0dedf02cc417469cf5a7af93b00ebb01169))
+
 ## [1.0.2](https://github.com/cheesebit/classy/compare/v1.0.1...v1.0.2) (2021-06-21)
 
 
