@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/cheesebit/classy/compare/v1.0.3...v1.0.4) (2021-06-26)
+
+
+### Bug Fixes
+
+* fix bundle output ([776aa48](https://github.com/cheesebit/classy/commit/776aa48222eb58652b550082731d383e278927aa))
+
 ## [1.0.3](https://github.com/cheesebit/classy/compare/v1.0.2...v1.0.3) (2021-06-26)
 
 
