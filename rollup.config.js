@@ -10,7 +10,7 @@ import typescript from 'typescript';
 
 module.exports = {
   input: 'src/index.ts',
-  output: [{ name: 'classy', file: pkg.module, format: 'cjs' }],
+  output: [{ name: 'classy', file: pkg.main, format: 'cjs' }],
   plugins: [
     del({ targets: [`dist/`] }),
     ts({ typescript, tsconfig: './tsconfig.json' }),
