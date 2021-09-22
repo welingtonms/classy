@@ -1,6 +1,6 @@
 {
   "name": "@cheesebit/classy",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Apply CSS classes or conditional CSS properties based on props more easily.",
   "main": "dist/classy.js",
   "types": "dist",

@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/cheesebit/classy/compare/v1.0.4...v1.0.5) (2021-09-22)
+
+
+### Bug Fixes
+
+* remove useRef usage inside `useClassy` hook ([91c669d](https://github.com/cheesebit/classy/commit/91c669dbba8a874d6459630a244239dd7a430221))
+
 ## [1.0.4](https://github.com/cheesebit/classy/compare/v1.0.3...v1.0.4) (2021-06-26)
 
 
