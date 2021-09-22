@@ -141,9 +141,6 @@ export function useClassy<T>(
   prop: (conditions: PropCondition | PropCondition[]) => boolean
   classy: (...conditions: ClassCondition<T>[]) => string
 } {
-  const propRef = useRef(getPropFunction())
-  const classyRef = useRef(getClassy())
-
   function getPropFunction() {
     return function getPropBasedOn(conditions: PropCondition | PropCondition[]) {
       return prop(conditions)(props)
@@ -156,17 +153,9 @@ export function useClassy<T>(
     }
   }
 
-  useEffect(
-    function updateHelpers() {
-      propRef.current = getPropFunction()
-      classyRef.current = getClassy()
-    },
-    [props]
-  )
-
   return {
-    prop: propRef.current,
-    classy: classyRef.current,
+    prop: getPropFunction(),
+    classy: getClassy(),
   }
 }
 
