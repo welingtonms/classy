@@ -2,20 +2,20 @@
   "name": "@cheesebit/classy",
   "version": "1.0.5",
   "description": "Apply CSS classes or conditional CSS properties based on props more easily.",
-  "main": "dist/classy.js",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
   "types": "dist",
   "files": [
     "dist"
   ],
   "scripts": {
-    "test": "jest --watch",
     "start": "npm run watch",
+    "test": "jest --watch",
     "coverage": "jest --coverage",
     "watch": "rollup -c --watch",
-    "build": "rollup --config",
+    "build": "rollup -c",
     "postversion": "git push origin --tags",
     "prepublishOnly": "npm run build",
-    "generate-types": "tsc --build tsconfig.json",
     "release": "semantic-release"
   },
   "repository": {
@@ -36,32 +36,29 @@
   },
   "homepage": "https://github.com/cheesebit/classy#readme",
   "devDependencies": {
-    "@babel/core": "7.14.6",
-    "@babel/preset-env": "7.14.7",
-    "@babel/preset-typescript": "7.14.5",
+    "@babel/core": "7.16.0",
+    "@babel/preset-env": "7.16.0",
+    "@babel/preset-typescript": "7.16.0",
     "@rollup/plugin-babel": "5.3.0",
-    "@rollup/plugin-commonjs": "19.0.0",
-    "@rollup/plugin-node-resolve": "13.0.0",
-    "@rollup/plugin-typescript": "8.2.1",
-    "@semantic-release/changelog": "5.0.1",
-    "@semantic-release/git": "9.0.0",
-    "@testing-library/react-hooks": "7.0.0",
-    "@types/jest": "26.0.23",
-    "jest": "27.0.4",
+    "@rollup/plugin-commonjs": "21.0.1",
+    "@rollup/plugin-node-resolve": "13.0.6",
+    "@rollup/plugin-typescript": "8.3.0",
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "@testing-library/react-hooks": "^7.0.2",
+    "@types/jest": "27.0.2",
+    "jest": "27.3.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-test-renderer": "17.0.2",
-    "rollup": "2.52.2",
+    "rollup": "2.58.3",
     "rollup-plugin-analyzer": "4.0.0",
     "rollup-plugin-delete": "2.0.0",
+    "rollup-plugin-peer-deps-external": "2.2.4",
     "rollup-plugin-terser": "7.0.2",
-    "semantic-release": "17.4.4",
-    "tslib": "2.3.0",
-    "typescript": "4.3.4"
-  },
-  "peerDependencies": {
-    "react": ">= 17.0.1",
-    "react-dom": ">= 17.0.1"
+    "semantic-release": "18.0.0",
+    "tslib": "2.3.1",
+    "typescript": "4.4.4"
   },
   "publishConfig": {
     "access": "public"

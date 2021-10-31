@@ -1,1 +1,1 @@
-export { default as classy, prop, useClassy  } from "./classy";
+export { default as classy, prop, useClassy } from "./classy";
