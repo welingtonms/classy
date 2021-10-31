@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/cheesebit/classy/compare/v1.0.5...v1.0.6) (2021-10-31)
+
+
+### Bug Fixes
+
+* clenup and deps update ([8faac8f](https://github.com/cheesebit/classy/commit/8faac8f360dba2abcee0195882ccaf7bb88d0713))
+
 ## [1.0.5](https://github.com/cheesebit/classy/compare/v1.0.4...v1.0.5) (2021-09-22)
 
 
