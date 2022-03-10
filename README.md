@@ -1,4 +1,5 @@
 # classy
+
 This library helps you to handle assigning style that relies on multiple combinations of `props` or conditionals.
 
 [![Coverage Status](https://img.shields.io/coveralls/github/cheesebit/classy?style=flat-square)](https://coveralls.io/github/cheesebit/classy)
@@ -6,7 +7,35 @@ This library helps you to handle assigning style that relies on multiple combina
 
 ## What problem do we want to solve here?
 
-Let's say you have a React component with props such as `colorScheme`, `variant`, `validationStatus`, `disabled`, and so on.
+Let's suppose you have some good old conditional classes to be applied to an element:
+
+```jsx
+  import clsx from 'clsx'
+
+  <Button
+    className={clsx('my-button',{
+      'is-disabled': disabled,
+    })}
+  >
+    My Cool Button
+  </Button>
+```
+
+You could write:
+
+```jsx
+  import { classy } from 'clsx'
+
+  <Button
+    className={classy('my-button',{
+      'is-disabled': disabled,
+    })}
+  >
+    My Cool Button
+  </Button>
+```
+
+Or let's say you have a React component with props such as `colorScheme`, `variant`, `validationStatus`, `disabled`, and so on.
 
 If you to style your component conditionally according to these props, you would have to write something like:
 
@@ -28,11 +57,10 @@ If you to style your component conditionally according to these props, you would
   </Button>
 ```
 
-
 Well, what if you could write something like:
 
 ```jsx
-  import { useClassy } from '@cheesebit/classy'
+  import useClassy from '@cheesebit/classy'
 
   // ...
   const { prop, classy } = useClassy(props)
@@ -82,7 +110,6 @@ const Button = styled.button`
 Well, what about something simpler like:
 
 ```jsx
-import styled from 'styled-components'
 import { classy, prop } from '@cheesebit/classy'
 
 const Button = styled.button`
