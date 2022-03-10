@@ -1,18 +1,27 @@
-import isObject from "./is-object";
-import isFunction from "./is-function";
-import toArray from "./to-array";
+import isObject from './is-object';
+import isFunction from './is-function';
+import toArray from './to-array';
 
-export type PropCondition = {
-  [key: string]: number | string | boolean | number[] | string[] | boolean[] | undefined;
+export type FunctionCondition<T> = (value: T) => boolean;
+
+export type PropCondition<T> = {
+	[P in keyof Partial<T>]:
+		| number
+		| string
+		| boolean
+		| number[]
+		| string[]
+		| boolean[]
+		| FunctionCondition<T[P]>
+		| undefined
+		| null;
 };
 
-export type FunctionCondition<T> = (props: T) => boolean;
-
-export type ObjectCondition<T> = {
-  [key: string]: undefined | boolean | FunctionCondition<T>;
+export type ObjectCondition = {
+	[key: string]: undefined | boolean;
 };
 
-export type ClassCondition<T> = ObjectCondition<T> | string | undefined;
+export type ClassyCondition = string | ObjectCondition;
 
 /**
  * Return a function that checks conditions against a props object.
@@ -29,90 +38,84 @@ export type ClassCondition<T> = ObjectCondition<T> | string | undefined;
  * )
  * ```
  */
-export function prop<T extends Record<string, any>>(
-  conditions: PropCondition | PropCondition[]
-): FunctionCondition<T> {
-  const safeConditions = toArray(conditions);
 
-  return function (props: T): boolean {
-    let res = false;
+export function prop<T>(
+	conditions: PropCondition<T> | PropCondition<T>[]
+): (props: T) => boolean {
+	const safeConditions = toArray(conditions);
 
-    for (let i = 0; i < safeConditions.length; i++) {
-      const condition = safeConditions[i];
-      const keys = Object.keys(condition);
+	return function (props: T): boolean {
+		let res = false;
 
-      let temp = true;
+		for (let i = 0; i < safeConditions.length; i++) {
+			const condition = safeConditions[i];
+			const keys = Object.keys(condition);
 
-      for (let j = 0; j < keys.length && temp; j++) {
-        const key = keys[j];
-        const value = props[key];
+			let temp = true;
 
-        if (Array.isArray(condition[key])) {
-          temp = temp && toArray(condition[key]).includes(value);
-        } else if (isFunction(condition[key])) {
-          temp = temp && Boolean(condition[key](value));
-        } else {
-          temp = temp && condition[key] === value;
-        }
-      }
+			for (let j = 0; j < keys.length && temp; j++) {
+				const key = keys[j];
+				const value = props[key];
 
-      res = res || temp;
-    }
+				if (Array.isArray(condition[key])) {
+					temp = temp && toArray(value).every(entry => condition[key].includes(entry)) ;
+				} else if (isFunction(condition[key])) {
+					temp =
+						temp && Boolean(condition[key](value as typeof value));
+				} else {
+					temp = temp && condition[key] === value;
+				}
+			}
 
-    return res;
-  };
+			res = res || temp;
+		}
+
+		return res;
+	};
 }
 
-function handleConditionObject<T>(conditions: ObjectCondition<T>, props: T) {
-  const classes = Object.keys(conditions || {});
+function handleConditionObject(conditions: ObjectCondition) {
+	const res = Object.keys(conditions || {}).reduce((acc, clazz) => {
+		if (conditions[clazz]) {
+			return [...acc, clazz];
+		}
 
-  const res = classes.reduce((acc, clazz) => {
-    let value = conditions[clazz];
+		return acc;
+	}, [] as string[]);
 
-    if (isFunction(value)) {
-      value = (conditions[clazz] as FunctionCondition<T>)(props);
-    }
-
-    if (value) {
-      return [...acc, clazz];
-    }
-
-    return acc;
-  }, [] as string[]);
-
-  return res.join(" ");
+	return res.join(' ');
 }
 
 /**
  * Concatenate style properties or class names conditionally.
- * Conditions can be functions that consume components props,
- * objects, strings, or numbers (that will be coerced to strings).
+ * Conditions can be boolean or other primitive types, that will be coerced to strings.
+ *
  * @example
  * ```jsx
  * classy(1, 'some-class', {
  *  'class-a': true,
- *  'class-b': (props) => props.showClassB,
- * }, (props) => props.className)
+ *  'class-b': false,
+ * })
  * ```
  * @param conditions
  * @returns {(props: Object) => string} Returns function that consumes component props.
  */
-export function classy<T>(...conditions: ClassCondition<T>[]): (props: T) => string {
-  return function (props: T): string {
-    let classes: string[] = [];
+export function classy(...conditions: ClassyCondition[]): string {
+	let classes: string[] = [];
 
-    for (let i = 0; i < conditions.length; i++) {
-      const condition = conditions[i];
+	for (let i = 0; i < conditions.length; i++) {
+		const condition = conditions[i];
 
-      if (isObject(condition)) {
-        classes = classes.concat(handleConditionObject(condition as ObjectCondition<T>, props));
-      } else if (condition) {
-        classes.push(String(condition));
-      }
-    }
+		if (isObject(condition)) {
+			classes = classes.concat(
+				handleConditionObject(condition as ObjectCondition)
+			);
+		} else if (condition) {
+			classes.push(String(condition));
+		}
+	}
 
-    return classes.join(" ");
-  };
+	return classes.join(' ');
 }
 
 /**
@@ -120,37 +123,37 @@ export function classy<T>(...conditions: ClassCondition<T>[]): (props: T) => str
  * Conditions can be functions that consume components props,
  * objects, strings, or numbers (that will be coerced to strings).
  * @see {@link prop prop}
- * @see {@link class class}
+ * @see {@link classy classy}
  * @example
  * ```jsx
+ * import useClassy from '@cheesebit/classy';
+ *
+ * const { prop, classy } = useClassy(props);
+ *
  * classy(1, 'some-class', {
  *  'class-a': true,
- *  'class-b': (props) => props.showClassB,
- * }, (props) => props.className)
+ *  'class-b': prop({ someProp: 'someValue' }),
+ * })
  * ```
  * @param conditions
  * @returns {(props: Object) => string} Returns function that consumes component props.
  */
-export function useClassy<T>(props: T): {
-  prop: (conditions: PropCondition | PropCondition[]) => boolean;
-  classy: (...conditions: ClassCondition<T>[]) => string;
+function useClassy<T>(props: T): {
+	prop: (conditions: PropCondition<T> | PropCondition<T>[]) => boolean;
+	classy: (...conditions: ClassyCondition[]) => string;
 } {
-  function getPropFunction() {
-    return function getPropBasedOn(conditions: PropCondition | PropCondition[]) {
-      return prop(conditions)(props);
-    };
-  }
+	function getPropFunction() {
+		return function getPropBasedOn(
+			conditions: PropCondition<T> | PropCondition<T>[]
+		) {
+			return prop(conditions)(props);
+		};
+	}
 
-  function getClassy() {
-    return function getClassyFor(...conditions: ClassCondition<T>[]) {
-      return classy<T>(...conditions)(props);
-    };
-  }
-
-  return {
-    prop: getPropFunction(),
-    classy: getClassy(),
-  };
+	return {
+		prop: getPropFunction(),
+		classy,
+	};
 }
 
-export default classy;
+export default useClassy;
