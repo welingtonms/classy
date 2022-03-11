@@ -1,4 +1,5 @@
 # classy
+
 This library helps you to handle assigning style that relies on multiple combinations of `props` or conditionals.
 
 [![Coverage Status](https://img.shields.io/coveralls/github/cheesebit/classy?style=flat-square)](https://coveralls.io/github/cheesebit/classy)
@@ -6,14 +7,37 @@ This library helps you to handle assigning style that relies on multiple combina
 
 ## What problem do we want to solve here?
 
-Let's say you have a React component with props such as `colorScheme`, `variant`, `validationStatus`, `disabled`, and so on.
+Let's suppose you have some good old conditional classes to be applied to an element:
 
-If you to style your component conditionally according to these props, you would have to write something like:
+```jsx
+  <Button
+    className={`my-button ${disabled ? 'is-disabled' : ''}`}
+  >
+    My Cool Button
+  </Button>
+```
+
+You could write:
+
+```jsx
+  import { classy } from 'clsx'
+
+  <Button
+    className={classy('my-button',{
+      'is-disabled': disabled,
+    })}
+  >
+    My Cool Button
+  </Button>
+```
+
+Or, let's say you have a React component with props such as `colorScheme`, `variant`, `validationStatus`, `disabled`, and so on.
+
+If you dare to style your component conditionally according to these props, you would have to write something like:
 
 ```jsx
   import clsx from 'clsx'
 
-  // ...
   const { colorScheme, variant, validationStatus, disabled } = props
 
   <Button
@@ -28,13 +52,11 @@ If you to style your component conditionally according to these props, you would
   </Button>
 ```
 
-
 Well, what if you could write something like:
 
 ```jsx
-  import { useClassy } from '@cheesebit/classy'
+  import useClassy from '@cheesebit/classy'
 
-  // ...
   const { prop, classy } = useClassy(props)
   const { disabled } = props
 
@@ -49,6 +71,8 @@ Well, what if you could write something like:
     My Cool Button
   </Button>
 ```
+
+Cool, huh?!
 
 Or if you were using some CSS-in-JS library like [`styled-components`](https://styled-components.com/), you would have something like:
 
@@ -82,25 +106,24 @@ const Button = styled.button`
 Well, what about something simpler like:
 
 ```jsx
-import styled from 'styled-components'
-import { classy, prop } from '@cheesebit/classy'
+import { classier, prop } from '@cheesebit/classy'
 
 const Button = styled.button`
-  background: ${classy({
+  background: ${classier({
     '$button-primary-background': prop({ variant: 'primary' }),
     '$button-secondary-background': prop({ variant: 'secondary', scheme: 'light' }),
     '$button-secondary-dark-background': prop({ variant: 'secondary', scheme: 'dark' }),
     '$button-terciary-background': prop({ variant: 'terciary' }),
   })};
 
-  border-color: ${classy({
+  border-color: ${classier({
     '$button-primary-border-color': prop({ variant: 'primary' }),
     '$button-secondary-border-color': prop({ variant: 'secondary', scheme: 'light' }),
     '$button-secondary-dark-border-color': prop({ variant: 'secondary', scheme: 'dark' }),
     '$button-terciary-border-color': prop({ variant: 'terciary' }),
   })};
 
-  color: ${classy({
+  color: ${classier({
     '$button-primary-color': prop({ variant: 'primary' }),
     '$button-secondary-color': prop({ variant: 'secondary', scheme: 'light' }),
     '$button-secondary-dark-color': prop({ variant: 'secondary', scheme: 'dark' }),
@@ -109,4 +132,4 @@ const Button = styled.button`
 `
 ```
 
-`classy` gives you more power to represent conditionals and declutters you code, making it more purposeful.
+`classy` gives you more power to represent conditionals and helps you declutter your styling, making it more purposeful.
