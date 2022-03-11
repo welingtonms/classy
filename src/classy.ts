@@ -18,10 +18,14 @@ export type PropCondition<T> = {
 };
 
 export type ObjectCondition = {
-	[key: string]: undefined | boolean;
+	[key: string]: boolean | undefined | null;
 };
 
 export type ClassyCondition = string | ObjectCondition;
+
+export type ClassierCondition<T> = {
+	[key: string]: boolean | ((props: T) => boolean);
+};
 
 /**
  * Return a function that checks conditions against a props object.
@@ -40,7 +44,7 @@ export type ClassyCondition = string | ObjectCondition;
  */
 
 export function prop<T>(
-	conditions: PropCondition<T> | PropCondition<T>[]
+	...conditions: PropCondition<T>[]
 ): (props: T) => boolean {
 	const safeConditions = toArray(conditions);
 
@@ -58,7 +62,11 @@ export function prop<T>(
 				const value = props[key];
 
 				if (Array.isArray(condition[key])) {
-					temp = temp && toArray(value).every(entry => condition[key].includes(entry)) ;
+					temp =
+						temp &&
+						toArray(value).every((entry) =>
+							condition[key].includes(entry)
+						);
 				} else if (isFunction(condition[key])) {
 					temp =
 						temp && Boolean(condition[key](value as typeof value));
@@ -119,6 +127,49 @@ export function classy(...conditions: ClassyCondition[]): string {
 }
 
 /**
+ * Handle conditional CSS property value when using `styled-components`.
+ * Conditions can be boolean or use the `prop` helper for conditions based on components props.
+ * @see {@link prop prop}
+ *
+ * @example
+ * ```jsx
+ * color: ${classier({
+ *   red: prop({ variant: 'danger'}),
+ *   yellowgreen: prop({ variant: 'success'}),
+ * })}
+ * ```
+ * @param conditions
+ * @returns {(props: Object) => string} Returns function that consumes component props.
+ */
+export function classier<T>(
+	...conditions: ClassierCondition<T>[]
+): (props: T) => string {
+	return function (props: T): string {
+		let classes: string[] = [];
+
+		for (let i = 0; i < conditions.length; i++) {
+			const condition = conditions[i];
+
+			classes = Object.keys(condition).reduce((acc, key) => {
+				let value = condition[key];
+
+				if (isFunction(value)) {
+					value = (condition[key] as ReturnType<typeof prop>)(props);
+				}
+
+				if (Boolean(value)) {
+					return [...acc, key];
+				}
+
+				return acc;
+			}, classes);
+		}
+
+		return classes.join(' ');
+	};
+}
+
+/**
  * Custom React hook that exposes `classy` and `prop` functions for a specific component.
  * Conditions can be functions that consume components props,
  * objects, strings, or numbers (that will be coerced to strings).
@@ -139,14 +190,14 @@ export function classy(...conditions: ClassyCondition[]): string {
  * @returns {(props: Object) => string} Returns function that consumes component props.
  */
 function useClassy<T>(props: T): {
-	prop: (conditions: PropCondition<T> | PropCondition<T>[]) => boolean;
+	prop: (...conditions: PropCondition<T>[]) => boolean;
 	classy: (...conditions: ClassyCondition[]) => string;
 } {
 	function getPropFunction() {
 		return function getPropBasedOn(
-			conditions: PropCondition<T> | PropCondition<T>[]
+			...conditions: PropCondition<T>[]
 		) {
-			return prop(conditions)(props);
+			return prop(...conditions)(props);
 		};
 	}
 

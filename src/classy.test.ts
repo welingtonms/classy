@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
-import useClassy, { classy, prop } from './classy';
+import useClassy, { classier, classy, prop } from './classy';
 
 describe('classy', () => {
 	describe('prop', () => {
@@ -239,6 +239,97 @@ describe('classy', () => {
 		});
 	});
 
+	describe('classier', () => {
+		it('returns correct classes based on booleans', () => {
+			expect(
+				classier({
+					'class-a': true,
+					'class-b': true,
+					'class-c': true,
+				})({})
+			).toBe('class-a class-b class-c');
+
+			expect(
+				classier({
+					'class-a': true,
+					'class-b': false,
+					'class-c': true,
+				})({})
+			).toBe('class-a class-c');
+
+			expect(
+				classier({
+					'class-a': true,
+					'class-b': true,
+					'class-c': false,
+				})({})
+			).toBe('class-a class-b');
+
+			expect(
+				classier({
+					'class-a': false,
+					'class-b': false,
+					'class-c': false,
+				})({})
+			).toBe('');
+		});
+
+		it('returns correct classes based on `prop` helper return', () => {
+			const props = {
+				a: 1,
+				b: 2,
+				c: '3',
+			};
+
+			expect(
+				classier({
+					'class-a': prop<typeof props>({ a: 1 }),
+					'class-b': prop<typeof props>({ b: 2 }),
+					'class-c': prop<typeof props>({ c: '3' }),
+				})(props)
+			).toBe('class-a class-b class-c');
+
+			expect(
+				classier({
+					'class-a': prop<typeof props>({ a: 1 }),
+					'class-b': prop<typeof props>({ b: (value) => value !== 2 }),
+					'class-c': prop<typeof props>({ c: '3' }),
+				})(props)
+			).toBe('class-a class-c');
+
+			expect(
+				classier({
+					'class-a': prop<typeof props>({ a: 1 }),
+					'class-b': prop<typeof props>({ b: [1, 2, 3] }),
+					'class-c': prop<typeof props>({ c: 'any value' }),
+				})(props)
+			).toBe('class-a class-b');
+
+			expect(
+				classier({
+					'class-a': prop<typeof props>({ a: false }),
+					'class-b': prop<typeof props>({ b: [1, 2, 3] }),
+					// TODO: figure out how to not need the typeof here
+					'class-c': prop<typeof props>({ a: 1 }, { b: 2 }, { c: 'k' }),
+					'class-d': prop<typeof props>({ a: 1 }),
+				})(props)
+			).toBe('class-b class-c class-d');
+
+			expect(
+				classier(
+					{
+						'class-0': true,
+						'class-a': prop({ a: false }),
+						'class-b': prop({ b: [1, 2, 3] }),
+						'class-c': prop<typeof props>({ a: 1 }, { c: 'any value' }),
+						'class-d': prop({ a: 1 }),
+						'class-n': true
+					},
+				)(props)
+			).toBe('class-0 class-b class-c class-d class-n');
+		});
+	});
+
 	describe('useClassy', () => {
 		it('returns `prop` and `classy` functions correctly', () => {
 			const props = {
@@ -326,7 +417,7 @@ describe('classy', () => {
 				classy({
 					'class-a': prop({ a: false }),
 					'class-b': prop({ b: [1, 2, 3] }),
-					'class-c': prop([{ a: 1 }, { c: 'any value' }]),
+					'class-c': prop({ a: 1 }, { c: 'any value' }),
 					'class-d': prop({ a: 1 }),
 				})
 			).toBe('class-b class-c class-d');
@@ -337,7 +428,7 @@ describe('classy', () => {
 					{
 						'class-a': prop({ a: false }),
 						'class-b': prop({ b: [1, 2, 3] }),
-						'class-c': prop([{ a: 1 }, { c: 'any value' }]),
+						'class-c': prop({ a: 1 }, { c: 'any value' }),
 						'class-d': prop({ a: 1 }),
 					},
 					'class-n'
