@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/cheesebit/classy/compare/v1.1.0...v1.1.1) (2022-03-11)
+
+
+### Bug Fixes
+
+* fix output exports ([088977e](https://github.com/cheesebit/classy/commit/088977ed258aaba7d8f03d1262261f967186ed39))
+
 # [1.1.0](https://github.com/cheesebit/classy/compare/v1.0.6...v1.1.0) (2022-03-11)
 
 
