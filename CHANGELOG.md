@@ -1,3 +1,11 @@
+# [1.1.0](https://github.com/cheesebit/classy/compare/v1.0.6...v1.1.0) (2022-03-11)
+
+
+### Features
+
+* add classier for css-in-js support ([209a103](https://github.com/cheesebit/classy/commit/209a10390d82c6d7fd310333c30f85e9dfc71bf2))
+* extend classy usage ([c49d7c3](https://github.com/cheesebit/classy/commit/c49d7c356f614e0b42ad585e405805de6829ab92))
+
 ## [1.0.6](https://github.com/cheesebit/classy/compare/v1.0.5...v1.0.6) (2021-10-31)
 
 
