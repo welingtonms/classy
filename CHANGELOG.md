@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/cheesebit/classy/compare/v1.1.1...v1.1.2) (2022-05-23)
+
+
+### Bug Fixes
+
+* update deps; update prettier config ([e5b3f9e](https://github.com/cheesebit/classy/commit/e5b3f9eca000f1a83ee02815213dee19e8def2e0))
+
 ## [1.1.1](https://github.com/cheesebit/classy/compare/v1.1.0...v1.1.1) (2022-03-11)
 
 
