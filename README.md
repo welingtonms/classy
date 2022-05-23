@@ -10,25 +10,21 @@ This library helps you to handle assigning style that relies on multiple combina
 Let's suppose you have some good old conditional classes to be applied to an element:
 
 ```jsx
-  <Button
-    className={`my-button ${disabled ? 'is-disabled' : ''}`}
-  >
-    My Cool Button
-  </Button>
+<Button className={`my-button ${disabled ? 'is-disabled' : ''}`}>My Cool Button</Button>
 ```
 
 You could write:
 
 ```jsx
-  import { classy } from 'clsx'
+import { classy } from '@cheesebit/classy';
 
-  <Button
-    className={classy('my-button',{
-      'is-disabled': disabled,
-    })}
-  >
-    My Cool Button
-  </Button>
+<Button
+  className={classy('my-button', {
+    'is-disabled': disabled,
+  })}
+>
+  My Cool Button
+</Button>;
 ```
 
 Or, let's say you have a React component with props such as `colorScheme`, `variant`, `validationStatus`, `disabled`, and so on.
@@ -77,7 +73,7 @@ Cool, huh?!
 Or if you were using some CSS-in-JS library like [`styled-components`](https://styled-components.com/), you would have something like:
 
 ```jsx
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const Button = styled.button`
   background: ${({ variant, scheme }) => ({
@@ -100,13 +96,13 @@ const Button = styled.button`
     '$button-secondary-dark-color': variant == 'secondary' && scheme == 'dark',
     '$button-terciary-color': variant == 'terciary',
   })};
-`
+`;
 ```
 
 Well, what about something simpler like:
 
 ```jsx
-import { classier, prop } from '@cheesebit/classy'
+import { classier, prop } from '@cheesebit/classy';
 
 const Button = styled.button`
   background: ${classier({
@@ -129,7 +125,7 @@ const Button = styled.button`
     '$button-secondary-dark-color': prop({ variant: 'secondary', scheme: 'dark' }),
     '$button-terciary-color': prop({ variant: 'terciary' }),
   })};
-`
+`;
 ```
 
 `classy` gives you more power to represent conditionals and helps you declutter your styling, making it more purposeful.

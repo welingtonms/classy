@@ -4,36 +4,36 @@
 name: Test
 
 on:
-  push:
-    branches: [main]
+    push:
+        branches: [main, beta]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [14.x]
+        strategy:
+            matrix:
+                node-version: [16.x]
 
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: npm ci
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - name: Install dependencies
+              run: yarn install --immutable # based on https://circleci.com/docs/2.0/yarn/
 
-      - name: Running code coverage
-        run: npm run coverage
+            - name: Running code coverage
+              run: yarn coverage
 
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+            - name: Coveralls
+              uses: coverallsapp/github-action@master
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Release
-        run: npm run release
-    env:
-      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+            - name: Release
+              run: yarn release
+        env:
+            GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

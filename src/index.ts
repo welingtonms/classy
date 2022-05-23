@@ -1,1 +1,1 @@
-export { default, prop, classy, classier } from "./classy";
+export { default, when, classy, classier } from './classy';
