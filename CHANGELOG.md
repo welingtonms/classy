@@ -1,3 +1,10 @@
+## [1.1.4](https://github.com/welingtonms/classy/compare/v1.1.3...v1.1.4) (2022-06-20)
+
+
+### Bug Fixes
+
+* publish release to github ([26f03f2](https://github.com/welingtonms/classy/commit/26f03f246921feb73bcb6f6f27fb5397d7d571c5))
+
 ## [1.1.3](https://github.com/welingtonms/classy/compare/v1.1.2...v1.1.3) (2022-06-20)
 
 
