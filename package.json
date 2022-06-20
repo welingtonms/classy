@@ -13,7 +13,7 @@
 	},
 	"scripts": {
 		"start": "npm run watch",
-		"test": "jest --watch",
+		"test": "jest",
 		"coverage": "jest --coverage",
 		"watch": "rollup -c --watch",
 		"build": "rollup -c",
