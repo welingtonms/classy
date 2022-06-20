@@ -1,3 +1,11 @@
+## [1.1.3](https://github.com/welingtonms/classy/compare/v1.1.2...v1.1.3) (2022-06-20)
+
+
+### Bug Fixes
+
+* config improvements ([7a84a78](https://github.com/welingtonms/classy/commit/7a84a783b1985dc97538c8cb9c612277363ab46d))
+* remove watch flag from test script ([de9bc1f](https://github.com/welingtonms/classy/commit/de9bc1f2bb4756c7ff290fc68d553d61d244c840))
+
 ## [1.1.2](https://github.com/cheesebit/classy/compare/v1.1.1...v1.1.2) (2022-05-23)
 
 
