@@ -1,11 +1,14 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Test
+name: Release
 
 on:
     push:
         branches: [main, beta]
+
+    # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
 
 jobs:
     build:
@@ -23,17 +26,18 @@ jobs:
                   node-version: ${{ matrix.node-version }}
             - name: Install dependencies
               run: yarn install --immutable # based on https://circleci.com/docs/2.0/yarn/
-
+            - name: Running unit tests
+              run: yarn test
             - name: Running code coverage
               run: yarn coverage
-
             - name: Coveralls
               uses: coverallsapp/github-action@master
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
-
+            - name: Build
+              run: yarn build
             - name: Release
-              run: yarn release
+              run: yarn release || true
         env:
             GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
             NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

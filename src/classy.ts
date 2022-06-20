@@ -180,7 +180,7 @@ export function classier< T >(
  * @see {@link classy classy}
  * @example
  * ```jsx
- * import useClassy from '@cheesebit/classy';
+ * import useClassy from '@welingtonms/classy';
  *
  * const { when, classy } = useClassy(props);
  *

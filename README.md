@@ -2,28 +2,30 @@
 
 This library helps you to handle assigning style that relies on multiple combinations of `props` or conditionals.
 
-[![Coverage Status](https://img.shields.io/coveralls/github/cheesebit/classy?style=flat-square)](https://coveralls.io/github/cheesebit/classy)
-[![npm package](https://img.shields.io/npm/v/@cheesebit/classy?style=flat-square)](https://www.npmjs.com/package/@cheesebit/classy)
+[![Coverage Status](https://img.shields.io/coveralls/github/welingtonms/classy?style=flat-square)](https://coveralls.io/github/welingtonms/classy)
+[![npm package](https://img.shields.io/npm/v/@welingtonms/classy?style=flat-square)](https://www.npmjs.com/package/@welingtonms/classy)
 
 ## What problem do we want to solve here?
 
 Let's suppose you have some good old conditional classes to be applied to an element:
 
 ```jsx
-<Button className={`my-button ${disabled ? 'is-disabled' : ''}`}>My Cool Button</Button>
+<Button className={ `my-button ${ disabled ? 'is-disabled' : '' }` }>
+	My Cool Button
+</Button>
 ```
 
 You could write:
 
 ```jsx
-import { classy } from '@cheesebit/classy';
+import { classy } from '@welingtonms/classy';
 
 <Button
-  className={classy('my-button', {
-    'is-disabled': disabled,
-  })}
+	className={ classy( 'my-button', {
+		'is-disabled': disabled,
+	} ) }
 >
-  My Cool Button
+	My Cool Button
 </Button>;
 ```
 
@@ -51,7 +53,7 @@ If you dare to style your component conditionally according to these props, you 
 Well, what if you could write something like:
 
 ```jsx
-  import useClassy from '@cheesebit/classy'
+  import useClassy from '@welingtonms/classy'
 
   const { prop, classy } = useClassy(props)
   const { disabled } = props
@@ -76,55 +78,78 @@ Or if you were using some CSS-in-JS library like [`styled-components`](https://s
 import styled from 'styled-components';
 
 const Button = styled.button`
-  background: ${({ variant, scheme }) => ({
-    '$button-primary-background': variant == 'primary',
-    '$button-secondary-background': variant == 'secondary' && scheme == 'light',
-    '$button-secondary-dark-background': variant == 'secondary' && scheme == 'dark',
-    '$button-terciary-background': variant == 'terciary',
-  })};
+	background: ${ ( { variant, scheme } ) => ( {
+		'$button-primary-background': variant == 'primary',
+		'$button-secondary-background':
+			variant == 'secondary' && scheme == 'light',
+		'$button-secondary-dark-background':
+			variant == 'secondary' && scheme == 'dark',
+		'$button-terciary-background': variant == 'terciary',
+	} ) };
 
-  border-color: ${({ variant, scheme }) => ({
-    '$button-primary-border-color': variant == 'primary',
-    '$button-secondary-border-color': variant == 'secondary' && scheme == 'light',
-    '$button-secondary-dark-border-color': variant == 'secondary' && scheme == 'dark',
-    '$button-terciary-border-color': variant == 'terciary',
-  })};
+	border-color: ${ ( { variant, scheme } ) => ( {
+		'$button-primary-border-color': variant == 'primary',
+		'$button-secondary-border-color':
+			variant == 'secondary' && scheme == 'light',
+		'$button-secondary-dark-border-color':
+			variant == 'secondary' && scheme == 'dark',
+		'$button-terciary-border-color': variant == 'terciary',
+	} ) };
 
-  color: ${({ variant, scheme }) => ({
-    '$button-primary-color': variant == 'primary',
-    '$button-secondary-color': variant == 'secondary' && scheme == 'light',
-    '$button-secondary-dark-color': variant == 'secondary' && scheme == 'dark',
-    '$button-terciary-color': variant == 'terciary',
-  })};
+	color: ${ ( { variant, scheme } ) => ( {
+		'$button-primary-color': variant == 'primary',
+		'$button-secondary-color': variant == 'secondary' && scheme == 'light',
+		'$button-secondary-dark-color':
+			variant == 'secondary' && scheme == 'dark',
+		'$button-terciary-color': variant == 'terciary',
+	} ) };
 `;
 ```
 
 Well, what about something simpler like:
 
 ```jsx
-import { classier, prop } from '@cheesebit/classy';
+import { classier, prop } from '@welingtonms/classy';
 
 const Button = styled.button`
-  background: ${classier({
-    '$button-primary-background': prop({ variant: 'primary' }),
-    '$button-secondary-background': prop({ variant: 'secondary', scheme: 'light' }),
-    '$button-secondary-dark-background': prop({ variant: 'secondary', scheme: 'dark' }),
-    '$button-terciary-background': prop({ variant: 'terciary' }),
-  })};
+	background: ${ classier( {
+		'$button-primary-background': prop( { variant: 'primary' } ),
+		'$button-secondary-background': prop( {
+			variant: 'secondary',
+			scheme: 'light',
+		} ),
+		'$button-secondary-dark-background': prop( {
+			variant: 'secondary',
+			scheme: 'dark',
+		} ),
+		'$button-terciary-background': prop( { variant: 'terciary' } ),
+	} ) };
 
-  border-color: ${classier({
-    '$button-primary-border-color': prop({ variant: 'primary' }),
-    '$button-secondary-border-color': prop({ variant: 'secondary', scheme: 'light' }),
-    '$button-secondary-dark-border-color': prop({ variant: 'secondary', scheme: 'dark' }),
-    '$button-terciary-border-color': prop({ variant: 'terciary' }),
-  })};
+	border-color: ${ classier( {
+		'$button-primary-border-color': prop( { variant: 'primary' } ),
+		'$button-secondary-border-color': prop( {
+			variant: 'secondary',
+			scheme: 'light',
+		} ),
+		'$button-secondary-dark-border-color': prop( {
+			variant: 'secondary',
+			scheme: 'dark',
+		} ),
+		'$button-terciary-border-color': prop( { variant: 'terciary' } ),
+	} ) };
 
-  color: ${classier({
-    '$button-primary-color': prop({ variant: 'primary' }),
-    '$button-secondary-color': prop({ variant: 'secondary', scheme: 'light' }),
-    '$button-secondary-dark-color': prop({ variant: 'secondary', scheme: 'dark' }),
-    '$button-terciary-color': prop({ variant: 'terciary' }),
-  })};
+	color: ${ classier( {
+		'$button-primary-color': prop( { variant: 'primary' } ),
+		'$button-secondary-color': prop( {
+			variant: 'secondary',
+			scheme: 'light',
+		} ),
+		'$button-secondary-dark-color': prop( {
+			variant: 'secondary',
+			scheme: 'dark',
+		} ),
+		'$button-terciary-color': prop( { variant: 'terciary' } ),
+	} ) };
 `;
 ```
 

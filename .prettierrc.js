@@ -9,5 +9,14 @@ module.exports = {
 	jsxBracketSameLine: false,
 	semi: true,
 	arrowParens: 'always',
-	parenSpacing: true
+	jsxBracketSameLine: false,
+	overrides: [
+		{
+			files: '*.{css,sass,scss}',
+			options: {
+				singleQuote: false,
+				parenSpacing: false,
+			},
+		},
+	],
 };
