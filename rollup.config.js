@@ -3,6 +3,7 @@ import analyze from 'rollup-plugin-analyzer';
 import babel from '@rollup/plugin-babel';
 import del from 'rollup-plugin-delete';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import pkg from './package.json';
 import resolve from '@rollup/plugin-node-resolve';
 import ts from '@rollup/plugin-typescript';
 import typescript from 'typescript';
@@ -11,15 +12,22 @@ module.exports = {
 	input: 'src/index.ts',
 	output: [
 		{
-			dir: 'dist',
+			file: pkg.main,
+			format: 'cjs',
+			exports: 'named',
+			sourcemap: true,
+		},
+		{
+			file: pkg.module,
 			format: 'esm',
+			exports: 'named',
 			sourcemap: true,
 		},
 	],
 	plugins: [
-		peerDepsExternal(),
 		del( { targets: [ `dist/` ] } ),
-		ts( { typescript, tsconfig: './tsconfig.json', sourceMap: false } ),
+		peerDepsExternal(),
+		ts( { typescript, tsconfig: './tsconfig.json', sourceMap: true } ),
 		babel( {
 			exclude: 'node_modules/**', // only transpile our source code
 			babelHelpers: 'bundled',
