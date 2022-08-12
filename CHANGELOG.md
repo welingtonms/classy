@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/welingtonms/classy/compare/v1.1.4...v1.2.0) (2022-08-12)
+
+
+### Features
+
+* bundle to esm and cjs ([73fa58e](https://github.com/welingtonms/classy/commit/73fa58e0d23ef39f00ac75a53c0fd36ce6a2cf1d))
+
 ## [1.1.4](https://github.com/welingtonms/classy/compare/v1.1.3...v1.1.4) (2022-06-20)
 
 
